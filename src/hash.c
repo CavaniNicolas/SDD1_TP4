@@ -1,3 +1,9 @@
+/* -------------------------------------------------------------------------- */
+/* Nom du fichier : hash.c                                                    */
+/* Date de creation : Juin 2020                                               */
+/* Auteurs : Cavani Nicolas et Leduque Adrien (G31)                           */
+/* Objectif : Gerer la table de hachage                                       */
+/* -------------------------------------------------------------------------- */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -7,8 +13,9 @@
 #include "tools.h"
 
 
+/* Fonction de hachage de D.J. Bernstein */
 unsigned int hash_string(const char *str) {
-	unsigned int hash = 5381; /*  fonction de hachage de D.J. Bernstein*/
+	unsigned int hash = 5381; 
 	const char *s;
 
 	for (s = str; *s; s++) {
@@ -34,23 +41,17 @@ cell_t * initHashTable() {
 }
 
 
-void freeHashTable(cell_t * hashTable) {
-	for (int i=0; i<HASH_MAX; i++) {
-		free(hashTable[i].word);
-		freeChainedList(hashTable[i].next);
+cell_t * mallocNewCell() {
+	cell_t * cell = (cell_t *)malloc(sizeof(cell_t));
+
+	if (cell) {
+		cell->word = NULL;
+		cell->number = 0;
+		cell->next = NULL;
 	}
-	free(hashTable);
+	return cell;
 }
 
-void freeChainedList(cell_t * curr) {
-	cell_t * prev = curr;
-	while (curr != NULL) {
-		curr = curr->next;
-		free(prev->word);
-		free(prev);
-		prev = curr;
-	}
-}
 
 cell_t * createTableFromFile(FILE * file) {
 	char word[20];
@@ -95,36 +96,6 @@ char addWordInTable(cell_t * hashTable, char * word, int size) {
 }
 
 
-cell_t * mallocNewCell() {
-	cell_t * cell = (cell_t *)malloc(sizeof(cell_t));
-
-	if (cell) {
-		cell->word = NULL;
-		cell->number = 0;
-		cell->next = NULL;
-	}
-	return cell;
-}
-
-
-cell_t ** findWordInChainedList(cell_t * curr, char * word) {
-	cell_t * prev = curr;
-	char found = 0;
-
-	while (!found && curr != NULL) {
-		prev = curr;
-		curr = curr->next;
-		if (curr != NULL) {
-			if (!strcmp(curr->word, word)) {
-				found = 1;
-			}
-		}
-	}
-
-	return &(prev->next);
-}
-
-
 char insertWordInTable(cell_t * newCell, char * word, int size) {
 	char errorCode = 0;
 
@@ -148,6 +119,24 @@ char insertWordInTable(cell_t * newCell, char * word, int size) {
 }
 
 
+cell_t ** findWordInChainedList(cell_t * curr, char * word) {
+	cell_t * prev = curr;
+	char found = 0;
+
+	while (!found && curr != NULL) {
+		prev = curr;
+		curr = curr->next;
+		if (curr != NULL) {
+			if (!strcmp(curr->word, word)) {
+				found = 1;
+			}
+		}
+	}
+
+	return &(prev->next);
+}
+
+
 void displayTable(cell_t * hashTable) {
 	cell_t * curr = NULL;
 
@@ -161,5 +150,24 @@ void displayTable(cell_t * hashTable) {
 			}
 			printf("\n");
 		}
+	}
+}
+
+
+void freeHashTable(cell_t * hashTable) {
+	for (int i=0; i<HASH_MAX; i++) {
+		free(hashTable[i].word);
+		freeChainedList(hashTable[i].next);
+	}
+	free(hashTable);
+}
+
+void freeChainedList(cell_t * curr) {
+	cell_t * prev = curr;
+	while (curr != NULL) {
+		curr = curr->next;
+		free(prev->word);
+		free(prev);
+		prev = curr;
 	}
 }

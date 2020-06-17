@@ -1,3 +1,9 @@
+/* -------------------------------------------------------------------------- */
+/* Nom du fichier : tools.c                                                   */
+/* Date de creation : Juin 2020                                               */
+/* Auteurs : Cavani Nicolas et Leduque Adrien (G31)                           */
+/* Objectif : Outils divers                                                   */
+/* -------------------------------------------------------------------------- */
 
 #include <stdio.h>
 #include "tools.h"
