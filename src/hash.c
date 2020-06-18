@@ -15,7 +15,7 @@
 
 /* Fonction de hachage de D.J. Bernstein */
 unsigned int hash_string(const char *str) {
-	unsigned int hash = 5381; 
+	unsigned int hash = 5381;
 	const char *s;
 
 	for (s = str; *s; s++) {
@@ -54,7 +54,7 @@ cell_t * mallocNewCell() {
 
 
 cell_t * createTableFromFile(FILE * file) {
-	char word[20];
+	char word[27];
 	int size = 0;
 
 	cell_t * hashTable = initHashTable();
@@ -81,7 +81,7 @@ char addWordInTable(cell_t * hashTable, char * word, int size) {
 
 	} else {
 		cell = findWordInChainedList(&(hashTable[wordKey]), word);
-		
+
 		if (*cell != NULL) {
 			(*cell)->number += 1;
 		} else {
