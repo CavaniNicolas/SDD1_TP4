@@ -26,16 +26,12 @@ unsigned int hash_string(const char *str) {
 }
 
 
-cell_t ** initHashTable() {
-	cell_t ** hashTable = (cell_t **)malloc(HASH_MAX * sizeof(cell_t *));
+void initHashTable(cell_t * hashTable[HASH_MAX]) {
 
-	if (hashTable) {
-		for (int i=0; i<HASH_MAX; i++) {
-			hashTable[i] = NULL;
-		}
+	for (int i=0; i<HASH_MAX; i++) {
+		hashTable[i] = NULL;
 	}
 
-	return hashTable;
 }
 
 
@@ -51,14 +47,12 @@ cell_t * mallocNewCell() {
 }
 
 
-cell_t ** createTableFromFile(FILE * file) {
+char createTableFromFile(FILE * file, cell_t ** hashTable) {
 	char errorCode = 0;
 	char word[27];
 	int size = 0;
 
-	cell_t ** hashTable = initHashTable();
-
-	while (!feof(file)) {
+	while (!feof(file) && !errorCode) {
 		fscanf(file, "%s", word);
 		size = editWord(word);
 
@@ -69,7 +63,7 @@ cell_t ** createTableFromFile(FILE * file) {
 		freeHashTable(hashTable);
 	}
 
-	return hashTable;
+	return errorCode;
 }
 
 
@@ -172,7 +166,6 @@ void freeHashTable(cell_t ** hashTable) {
 	for (int i=0; i<HASH_MAX; i++) {
 		freeChainedList(hashTable[i]);
 	}
-	free(hashTable);
 }
 
 void freeChainedList(cell_t * curr) {

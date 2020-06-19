@@ -3,6 +3,8 @@
 #include "hash.h"
 #include "tools.h"
 
+#include <stdlib.h>
+#include <string.h>
 
 int main() {
 
@@ -10,13 +12,15 @@ int main() {
 	FILE * file = openFile(filename);
 
 	if (file) {
-		cell_t ** hashTable = createTableFromFile(file);
+		cell_t * hashTable[HASH_MAX];
+		initHashTable(hashTable);
+
+		createTableFromFile(file, hashTable);
+
 		fclose(file);
 
-		if (hashTable) {
-			displayTable(hashTable);
-			freeHashTable(hashTable);
-		}
+		displayTable(hashTable);
+		freeHashTable(hashTable);
 	}
 
 	return 0;

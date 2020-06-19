@@ -39,14 +39,14 @@ unsigned int hash_string(const char *str);
 /* En sortie: hashTable (cell_t **) : Table de hachage (tableau contenant les */
 /*            pointeurs vers les structures) (initialises a NULL)             */
 /* -------------------------------------------------------------------------- */
-cell_t ** initHashTable();
+void initHashTable(cell_t * hashTable[HASH_MAX]);
 
 
 
 cell_t * mallocNewCell();
 
 
-cell_t ** createTableFromFile(FILE * file);
+char createTableFromFile(FILE * file, cell_t ** hashTable);
 
 char addWordInTable(cell_t * hashTable[HASH_MAX], char * word, int size);
 
