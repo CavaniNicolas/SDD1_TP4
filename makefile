@@ -7,7 +7,7 @@ DEP = $(patsubst %.o,%.d,$(OBJ))
 
 .PHONY: all
 all: bin/executable
-	@echo "Executer avec ./bin/executable"
+	@echo "Executer avec ./bin/executable filename"
 
 # edition des liens
 bin/executable: $(OBJ)
