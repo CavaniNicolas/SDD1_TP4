@@ -20,17 +20,17 @@ FILE * openFile(char const * filename) {
 }
 
 
-// Supprime le '.' a la fin du mot si il existe
-// Lower tous les caracteres
-// Et renvoie la longueur du mot
 int editWord(char * word) {
-	int size = 0;
+	int size = 0; /* Taille du mot */
 
+	// Calcul de la longueur du mot
+	// Au cours du parcours, les caracteres sont mit en minuscules
 	while (word[size] != '\0') {
 		word[size] = tolower(word[size]);
 		size++;
 	}
 
+	// Si le dernier caractere est un '.', il est supprime
 	if (word[size-1] == '.') {
 		word[size-1] = '\0';
 		size -= 1;
