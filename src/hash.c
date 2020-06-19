@@ -77,11 +77,12 @@ char createTableFromFile(FILE * file, cell_t ** hashTable) {
 
 
 char addWordInTable(cell_t * hashTable[HASH_MAX], char * word, int size) {
-	char errorCode = 0; /* Code Erreur */
-	int wordKey = hash_string(word);
+	char errorCode = 0;                 /* Code Erreur */
+	int wordKey    = hash_string(word); /* Clef de hachage du mot */
 	cell_t ** cell = NULL;
+	/* Pointeur sur le pointeur sur la structure a rechercher */
 
-	// Il faut trouver l'emplacement dans la table pour le nouveau mot
+	// Il faut trouver l'emplacement pour le nouveau mot dans la table
 	cell = findWordInChainedList(&(hashTable[wordKey]), word);
 
 	// Si le mot est deja dans la table, on incremente son compteur
@@ -101,15 +102,16 @@ char addWordInTable(cell_t * hashTable[HASH_MAX], char * word, int size) {
 
 
 int deleteWordFromTable(cell_t * hashTable[HASH_MAX], char * word) {
-	int number = 0;
-	int wordKey = hash_string(word);
+	int number     = 0; /* Nombre de fois que le mot a supprimer est apparu */
+	int wordKey    = hash_string(word); /* Clef de hachage du mot */
 	cell_t ** cell = NULL;
+	/* Pointeur sur le pointeur sur la structure a rechercher */
 
-	// Il faut trouver l'emplacement du mot dans la table
+	// Il faut trouver l'emplacement du mot a supprimer dans la table
 	cell = findWordInChainedList(&(hashTable[wordKey]), word);
 
 	// Si le mot est dans la table
-	// On enregistre son nombre d'apparitions et on le supprime
+	// On enregistre son nombre d'apparitions et on supprime le mot
 	if (*cell != NULL) {
 		number = (*cell)->number;
 		deleteWordFromChainedList(cell);
@@ -120,16 +122,19 @@ int deleteWordFromTable(cell_t * hashTable[HASH_MAX], char * word) {
 
 
 cell_t ** findWordInChainedList(cell_t ** prev, char * word) {
-	cell_t * curr = *prev;
-	char found = 0;
+	cell_t * curr = *prev; /* Pointeur courant pour le parcours de la table */
+	char isFound = 0; /* Booleen, mot trouve */
 
-	while (!found && curr != NULL) {
+	// Tant que le mot n'est pas trouve et qu'on a pas finit de parcourir la table
+	while (!isFound && curr != NULL) {
 		if (curr != NULL) {
 			if (!strcmp(curr->word, word)) {
-				found = 1;
+				// On a trouve le mot
+				isFound = 1;
 			}
 		}
-		if (!found) {
+		// Si il n'est pas trouve, on continue le parcours
+		if (!isFound) {
 			prev = &(curr->next);
 			curr = curr->next;
 		}
@@ -140,14 +145,17 @@ cell_t ** findWordInChainedList(cell_t ** prev, char * word) {
 
 
 char createNewWordInTable(cell_t * newCell, char * word, int size) {
-	char errorCode = 0;
+	char errorCode = 0; /* Code Erreur */
 
+	// Nouvelle cellule pour le nouveau mot
 	newCell->word = (char *)malloc((size+1) * sizeof(char));
 
 	if (newCell->word != NULL) {
+		// Remplissage de la cellule
 		strcpy(newCell->word, word);
 		newCell->number += 1;
 
+	// Erreur d'allocation
 	} else {
 		printf("Error when malloc the field for word (char *)\n");
 		errorCode = 1;
@@ -191,9 +199,10 @@ void displayTable(cell_t ** hashTable) {
 
 
 void displayOneWordFromTable(cell_t ** hashTable, char * word) {
-	int wordKey = hash_string(word);
-	int number = 0;
+	int wordKey    = hash_string(word); /* Clef de hachage du mot */
+	int number     = 0; /* Nombre d'apparitions du mot recherche */
 	cell_t ** cell = NULL;
+	/* Pointeur sur le pointeur sur la structure a rechercher */
 
 	// Il faut trouver l'emplacement du mot dans la table
 	cell = findWordInChainedList(&(hashTable[wordKey]), word);
@@ -207,25 +216,30 @@ void displayOneWordFromTable(cell_t ** hashTable, char * word) {
 
 
 void displayCountVariousWords(cell_t * hashTable[HASH_MAX]) {
-	cell_t * curr = NULL; /* Pointeur courant parcourant la liste chainee */
-	int nbWords = 0;
-	int nbVariousWords = 0;
+	cell_t * curr      = NULL; /* Pointeur courant parcourant la liste chainee */
+	int      nbWords   = 0;    /* Nombre total de mots dans la table */
+	int nbVariousWords = 0;    /* Nombre de mots differents dans la table */
 
+	// On parcours la table
 	for (int i=0; i<HASH_MAX; i++) {
 
+		// On parcours les listes chainees de la table
 		curr = hashTable[i];
 		while (curr != NULL) {
+			// On incremente les compteurs
 			nbVariousWords += 1;
 			nbWords += curr->number;
 
 			curr = curr->next;
 		}
 	}
+
 	printf("Total Words : %d\nDifferent Words : %d\n", nbWords, nbVariousWords);
 }
 
 
 void freeHashTable(cell_t ** hashTable) {
+	// On parcours la table et on supprime les listes chainees pointees
 	for (int i=0; i<HASH_MAX; i++) {
 		freeChainedList(&(hashTable[i]));
 	}
@@ -233,6 +247,7 @@ void freeHashTable(cell_t ** hashTable) {
 
 
 void freeChainedList(cell_t ** curr) {
+	// On supprime un par un les elements de la liste chainees
 	while (*curr != NULL) {
 		deleteWordFromChainedList(curr);
 	}
@@ -240,6 +255,7 @@ void freeChainedList(cell_t ** curr) {
 
 
 void deleteWordFromChainedList(cell_t ** prev) {
+	// Un element de la liste chainee est supprime, les morceaux sont raccroches
 	cell_t * curr = *prev;
 	*prev = (*prev)->next;
 	free(curr->word);
