@@ -1,7 +1,7 @@
-#options
+# options
 CFLAGS = -Wall -Wextra -g -MMD
 
-SRC = $(wildcard src/*.c)# $(wildcard src/pilefile/*.c)
+SRC = $(wildcard src/*.c)
 OBJ = $(patsubst src/%.c,build/%.o,$(SRC))
 DEP = $(patsubst %.o,%.d,$(OBJ))
 
@@ -9,15 +9,15 @@ DEP = $(patsubst %.o,%.d,$(OBJ))
 all: bin/executable
 	@echo "Executer avec ./bin/executable"
 
-#édition des liens
+# edition des liens
 bin/executable: $(OBJ)
-	@mkdir -p $(@D) #créer le dossier bin, s'il n'existe pas
+	@mkdir -p $(@D) #creer le dossier bin, s il n existe pas
 	cc -o $@ $^
 
-#génère les fichiers .o (dans build) à partir des fichiers .c (dans src) du même nom
-#compilation
+# genere les fichiers .o (dans build) a partir des fichiers .c (dans src) du meme nom
+# compilation
 build/%.o: src/%.c
-	@mkdir -p $(@D) #créer le dossier build, s'il n'existe pas
+	@mkdir -p $(@D) # creer le dossier build, s il n'existe pas
 	cc -c $< $(CFLAGS) -o $@
 
 .PHONY: clean

@@ -41,26 +41,30 @@ unsigned int hash_string(const char *str);
 /* -------------------------------------------------------------------------- */
 void initHashTable(cell_t * hashTable[HASH_MAX]);
 
-
-
 cell_t * mallocNewCell();
-
 
 char createTableFromFile(FILE * file, cell_t ** hashTable);
 
 char addWordInTable(cell_t * hashTable[HASH_MAX], char * word, int size);
 
-
-char createNewWordInTable(cell_t * newCell, char * word, int size);
+int deleteWordFromTable(cell_t * hashTable[HASH_MAX], char * word);
 
 cell_t ** findWordInChainedList(cell_t ** prev, char * word);
 
+char createNewWordInTable(cell_t * newCell, char * word, int size);
+
+
 void displayTable(cell_t ** hashTable);
+
+void displayOneWordFromTable(cell_t ** hashTable, char * word);
+
+void displayCountVariousWords(cell_t * hashTable[HASH_MAX]);
+
 
 void freeHashTable(cell_t ** hashTable);
 
+void freeChainedList(cell_t ** curr);
 
-void freeChainedList(cell_t * curr);
-
+void deleteWordFromChainedList(cell_t ** prev);
 
 #endif

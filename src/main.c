@@ -3,8 +3,6 @@
 #include "hash.h"
 #include "tools.h"
 
-#include <stdlib.h>
-#include <string.h>
 
 int main() {
 
@@ -16,10 +14,18 @@ int main() {
 		initHashTable(hashTable);
 
 		createTableFromFile(file, hashTable);
-
 		fclose(file);
 
+		addWordInTable(hashTable, "bonjour", 8);
+		addWordInTable(hashTable, "aurevoir", 9);
+
+		char word[4] = "les";
+		printf("Deleted \"%s\", it appeared %d times\n", word, deleteWordFromTable(hashTable, "les"));
+
 		displayTable(hashTable);
+		displayOneWordFromTable(hashTable, "france");
+		displayCountVariousWords(hashTable);
+
 		freeHashTable(hashTable);
 	}
 
