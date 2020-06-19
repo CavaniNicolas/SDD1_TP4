@@ -18,14 +18,24 @@ int main(int argc, char const * argv[]) {
 			createTableFromFile(file, hashTable);
 			fclose(file);
 
-			// addWordInTable(hashTable, "bonjour", 8);
-			// addWordInTable(hashTable, "aurevoir", 9);
 
-			// char word[4] = "les";
-			// printf("Deleted \"%s\", it appeared %d times\n", word, deleteWordFromTable(hashTable, "les"));
 
 			displayTable(hashTable);
+			puts("");
 			displayOneWordFromTable(hashTable, "france");
+			displayCountVariousWords(hashTable);
+
+			puts("");
+			char word[4] = "les";
+			printf("Deleted \"%s\", it appeared %d times\n", word,
+				deleteWordFromTable(hashTable, "les"));
+			addWordInTable(hashTable, "bonjour", 8);
+			addWordInTable(hashTable, "aurevoir", 9);
+			puts("");
+
+			displayTable(hashTable);
+			puts("");
+			displayOneWordFromTable(hashTable, "de");
 			displayCountVariousWords(hashTable);
 
 			freeHashTable(hashTable);

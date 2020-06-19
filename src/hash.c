@@ -218,7 +218,7 @@ void displayOneWordFromTable(cell_t ** hashTable, char * word) {
 		number = (*cell)->number;
 	}
 
-	printf("%s appeared %d times\n", word, number);
+	printf("\"%s\" appeared %d times\n", word, number);
 }
 
 
