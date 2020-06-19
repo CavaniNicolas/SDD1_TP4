@@ -16,11 +16,11 @@ int main() {
 		createTableFromFile(file, hashTable);
 		fclose(file);
 
-		addWordInTable(hashTable, "bonjour", 8);
-		addWordInTable(hashTable, "aurevoir", 9);
+		// addWordInTable(hashTable, "bonjour", 8);
+		// addWordInTable(hashTable, "aurevoir", 9);
 
-		char word[4] = "les";
-		printf("Deleted \"%s\", it appeared %d times\n", word, deleteWordFromTable(hashTable, "les"));
+		// char word[4] = "les";
+		// printf("Deleted \"%s\", it appeared %d times\n", word, deleteWordFromTable(hashTable, "les"));
 
 		displayTable(hashTable);
 		displayOneWordFromTable(hashTable, "france");

@@ -63,8 +63,10 @@ char createTableFromFile(FILE * file, cell_t ** hashTable) {
 		// On calcul sa taille en supprimant le '.' si il y en a un
 		size = editWord(word);
 
-		// On ajoutele mot dans la table
-		errorCode = addWordInTable(hashTable, word, size);
+		if (size > 0) {
+			// On ajoute le mot dans la table si il est valide
+			errorCode = addWordInTable(hashTable, word, size);
+		}
 	}
 
 	// Si il y a eu une erreur lors de l'ajout, on libere la table
