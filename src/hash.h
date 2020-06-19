@@ -36,28 +36,28 @@ unsigned int hash_string(const char *str);
 /*                                                                            */
 /* En entrée: (void)                                                          */
 /*                                                                            */
-/* En sortie: hashTable (cell_t *) : Table de hachage (tableau contenant les  */
-/*            premières structures vides)                                     */
+/* En sortie: hashTable (cell_t **) : Table de hachage (tableau contenant les */
+/*            pointeurs vers les structures) (initialises a NULL)             */
 /* -------------------------------------------------------------------------- */
-cell_t * initHashTable();
+cell_t ** initHashTable();
 
 
 
 cell_t * mallocNewCell();
 
 
-cell_t * createTableFromFile(FILE * file);
+cell_t ** createTableFromFile(FILE * file);
 
-char addWordInTable(cell_t * hashTable, char * word, int size);
+char addWordInTable(cell_t * hashTable[HASH_MAX], char * word, int size);
 
 
-char insertWordInTable(cell_t * newCell, char * word, int size);
+char createNewWordInTable(cell_t * newCell, char * word, int size);
 
-cell_t ** findWordInChainedList(cell_t * curr, char * word);
+cell_t ** findWordInChainedList(cell_t ** prev, char * word);
 
-void displayTable(cell_t * hashTable);
+void displayTable(cell_t ** hashTable);
 
-void freeHashTable(cell_t * hashTable);
+void freeHashTable(cell_t ** hashTable);
 
 
 void freeChainedList(cell_t * curr);
