@@ -60,12 +60,17 @@ char createTableFromFile(FILE * file, cell_t ** hashTable) {
 	while (!feof(file) && !errorCode) {
 		// On lit un mot
 		fscanf(file, "%s", word);
-		// On calcul sa taille en supprimant le '.' si il y en a un
-		size = editWord(word);
 
-		if (size > 0) {
-			// On ajoute le mot dans la table si il est valide
-			errorCode = addWordInTable(hashTable, word, size);
+		// Si le fichier n'est pas vide alors :
+		// _IO_read_base = pointeur de debut du fichier
+		if ((*(*file)._IO_read_base != '\0')) {
+			// On calcul sa taille en supprimant le '.' si il y en a un
+			size = editWord(word);
+
+			if (size > 0) {
+				// On ajoute le mot dans la table si il est valide
+				errorCode = addWordInTable(hashTable, word, size);
+			}
 		}
 	}
 
